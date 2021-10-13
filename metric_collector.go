@@ -68,7 +68,7 @@ func exportersForDefault(c *client.BirdClient, descriptionLabels bool) map[int][
 		protocol.Kernel: {e},
 		protocol.OSPF:   {e, metrics.NewOSPFExporter("bird_", c)},
 		protocol.Static: {e},
-		protocol.Babel:  {e},
+		protocol.Babel:  {e, metrics.NewBabelExporter("bird_", c)},
 	}
 }
 

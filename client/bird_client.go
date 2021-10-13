@@ -51,6 +51,17 @@ func (c *BirdClient) GetOSPFAreas(protocol *protocol.Protocol) ([]*protocol.Ospf
 	return parser.ParseOspf(b), nil
 }
 
+// GetBabelEntries retrieves Babel specific information from bird
+func (c *BirdClient) GetBabelEntries(protocol *protocol.Protocol) ([]*protocol.BabelEntry, error) {
+	sock := c.socketFor(protocol.IPVersion)
+	b, err := birdsocket.Query(sock, fmt.Sprintf("show babel entries %s", protocol.Name))
+	if err != nil {
+		return nil, err
+	}
+
+	return parser.ParseBabel(b), nil
+}
+
 func (c *BirdClient) protocolsFromBird(ipVersions []string) ([]*protocol.Protocol, error) {
 	protocols := make([]*protocol.Protocol, 0)
 
